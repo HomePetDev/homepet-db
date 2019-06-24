@@ -3,9 +3,11 @@
 ## Instalacion 
 ```sh
   npm install -g knex
-  cd  homepet-db
+  cd homepet-db
   npm install
 ```
+
+
 Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion
 
 ```sh
@@ -16,7 +18,7 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
         host : 'localhost',
         user : 'tu-usuario',
         password : 'tu-contraseña',
-        database : 'homepet-db'
+        database : 'tu-base-de-datos' #nombre elegido homepet-db
       }
     },
     production: {
