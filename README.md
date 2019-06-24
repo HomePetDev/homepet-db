@@ -33,12 +33,12 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
 Pueden visualizar mas comando escribiendo `knex --help `
 
 ```sh
-  init [options]                         Create a fresh knexfile.
-  migrate:make [options] <name>          Create a named migration file.
-  migrate:latest [options]               Run all migrations that have not yet been run.
-  migrate:rollback [options]             Rollback the last set of migrations performed.
-  migrate:currentVersion                 View the current version for the migration.
-  seed:make [options] <name>             Create a named seed file.
-  seed:run [options]                     Run seed files.
+  knex init [options]                         Create a fresh knexfile.
+  knex migrate:make [options] <name>          Create a named migration file.
+  knex migrate:latest [options]               Run all migrations that have not yet been run.
+  knex migrate:rollback [options]             Rollback the last set of migrations performed.
+  knex migrate:currentVersion                 View the current version for the migration.
+  knex seed:make [options] <name>             Create a named seed file.
+  knex seed:run [options]                     Run seed files.
 
 ```
