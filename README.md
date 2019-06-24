@@ -8,7 +8,7 @@
 ```
 
 
-Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion
+Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion 
 
 ```sh
   module.exports = {
