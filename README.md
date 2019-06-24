@@ -3,11 +3,10 @@
 ## Instalacion 
 ```sh
   npm install -g knex
-  cd homepet-db
+  cd  homepet-db
   npm install
 ```
-
-Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion 
+Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion y crear la base de datos correspondiente `createdb nombre-bd`
 
 ```sh
   module.exports = {
@@ -17,7 +16,7 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
         host : 'localhost',
         user : 'tu-usuario',
         password : 'tu-contraseña',
-        database : 'tu-base-de-datos' #nombre elegido homepet-db
+        database : 'nombre-bd'
       }
     },
     production: {
@@ -34,12 +33,12 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
 Pueden visualizar mas comando escribiendo `knex --help `
 
 ```sh
-  init [options]                         Create a fresh knexfile.
-  migrate:make [options] <name>          Create a named migration file.
-  migrate:latest [options]               Run all migrations that have not yet been run.
-  migrate:rollback [options]             Rollback the last set of migrations performed.
-  migrate:currentVersion                 View the current version for the migration.
-  seed:make [options] <name>             Create a named seed file.
-  seed:run [options]                     Run seed files.
+  knex init [options]                         Create a fresh knexfile.
+  knex migrate:make [options] <name>          Create a named migration file.
+  knex migrate:latest [options]               Run all migrations that have not yet been run.
+  knex migrate:rollback [options]             Rollback the last set of migrations performed.
+  knex migrate:currentVersion                 View the current version for the migration.
+  knex seed:make [options] <name>             Create a named seed file.
+  knex seed:run [options]                     Run seed files.
 
 ```
