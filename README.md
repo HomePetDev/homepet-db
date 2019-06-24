@@ -6,7 +6,7 @@
   cd  homepet-db
   npm install
 ```
-Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion
+Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion y crear la base de datos correspondiente ``createdb nombre-bd`
 
 ```sh
   module.exports = {
@@ -16,7 +16,7 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
         host : 'localhost',
         user : 'tu-usuario',
         password : 'tu-contraseña',
-        database : 'homepet-db'
+        database : 'nombre-bd'
       }
     },
     production: {
