@@ -4,8 +4,8 @@ module.exports = {
     client: 'pg',
     connection: {
       host : 'localhost',
-      user : 'FLX',
-      password : 'flx',
+      user : 'postgres',
+      password : 'postgres',
       database : 'homepet-db'
     }
   },
