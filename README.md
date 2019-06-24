@@ -14,8 +14,8 @@ Recordar configurar el archivo `knexfile.js` con su correspondiente configuracio
       client: 'pg',
       connection: {
         host : 'localhost',
-        user : 'usuario',
-        password : 'contraseña',
+        user : 'tu-usuario',
+        password : 'tu-contraseña',
         database : 'homepet-db'
       }
     },

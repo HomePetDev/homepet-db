@@ -10,7 +10,6 @@ exports.up = function(knex, Promise) {
       fecha_registro TIMESTAMP NOT NULL DEFAULT NOW(),
       foto_url VARCHAR(250)
     );
-  
   `);
 };
 
