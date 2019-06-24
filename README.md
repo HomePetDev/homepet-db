@@ -7,7 +7,6 @@
   npm install
 ```
 
-
 Recordar configurar el archivo `knexfile.js` con su correspondiente configuracion 
 
 ```sh
