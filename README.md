@@ -40,5 +40,6 @@ Pueden visualizar mas comando escribiendo `knex --help `
   knex migrate:currentVersion                 View the current version for the migration.
   knex seed:make [options] <name>             Create a named seed file.
   knex seed:run [options]                     Run seed files.
-
+  
 ```
+
