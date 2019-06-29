@@ -241,3 +241,141 @@ CREATE TABLE hmpet.ordenes_compra(
   PRIMARY KEY (id_ordencompra)
 );
 
+CREATE TABLE hmpet.e_trabaja_h(
+  cedula_empleado varchar(12) references hmpet.empleados(cedula),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  fec_ini date ,
+
+  PRIMARY KEY (cedula_empleado,rif_homepet,fec_ini)
+);
+
+CREATE TABLE hmpet.E_realiza_serv(
+  cedula_empleado varchar(12) references hmpet.empleados(cedula),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  nombre_serv varchar(20) references hmpet.servicios(nombre),
+
+  PRIMARY KEY (cedula_empleado,rif_homepet,nombre_serv)
+);
+
+CREATE TABLE hmpet.ficha_x_serv(
+  id_ficha varchar(10) references hmpet.fichas_servicio(id_ficha),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  nombre_serv varchar(20) references hmpet.servicios(nombre),
+  cedula_emp varchar(12) NOT NULL ,
+
+  PRIMARY KEY (id_ficha,rif_homepet,nombre_serv)
+);
+
+CREATE TABLE hmpet.e_x_actividad(
+  cedula_emp varchar(12) references hmpet.empleados(cedula),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  nombre_serv varchar(20) references hmpet.servicios(nombre),
+  id_actividad int NOT NULL references hmpet.actvidades(id_serial),
+
+  PRIMARY KEY(cedula_emp,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE hmpet.ficha_x_actividad(
+  id_ficha varchar(10) references hmpet.fichas_servicio(id_ficha),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  nombre_serv varchar(20) references hmpet.servicios(nombre),
+  id_actividad int references hmpet.actvidades(id_serial),
+  cedula_emp varchar(12) NOT NULL references hmpet.empleados(cedula),
+
+  PRIMARY KEY (id_ficha,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE hmpet.actividad_x_producto(
+  id_producto varchar(10) references hmpet.productos(id_producto),
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  nombre_serv varchar(20) references hmpet.servicios(nombre),
+  id_actividad int references hmpet.actvidades(id_serial),
+  cantidad varchar(15) NOT NULL,
+
+  PRIMARY KEY (id_producto,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE hmpet.facturatienda_x_prod(
+  id_factura varchar(10) references hmpet.factura_tienda(id_factura),
+  id_prod varchar(10) references hmpet.productos(id_producto),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_factura,id_prod)
+);
+
+CREATE TABLE hmpet.factura_x_modopago(
+  id_factura varchar(10) references hmpet.facturas(id_factura),
+  nombre_modopago varchar(25) references hmpet.modos_pago(nombre_modo),
+  fecha date ,
+  dato_modalidad varchar(20) NOT NULL ,
+  monto_pago int NOT NULL CHECK (monto_pago>=0),
+
+  PRIMARY KEY(id_factura,nombre_modopago,fecha)
+);
+
+CREATE TABLE hmpet.producto_x_almacen(
+  id_prod varchar(10) references hmpet.productos(id_producto),
+  id_almacen varchar(10) references hmpet.almacen(id),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_prod,id_almacen)
+);
+
+CREATE TABLE hmpet.homepet_x_proveedor(
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  rif_proveedor varchar(12) references hmpet.proveedores(rif_proveedor),
+
+  PRIMARY KEY (rif_homepet,rif_proveedor)
+);
+
+CREATE TABLE hmpet.proveedor_x_prod(
+  rif_prov varchar(12) references hmpet.proveedores(rif_proveedor),
+  id_prod varchar(10) references hmpet.productos(id_producto),
+  fecha date,
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY (rif_prov,id_prod,fecha)
+);
+
+CREATE TABLE hmpet.ordencompra_x_producto(
+  id_orden varchar(15) references hmpet.ordenes_compra(id_ordencompra),
+  id_prod varchar(10) references hmpet.productos(id_producto),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_orden,id_prod)
+);
+
+CREATE TABLE hmpet.historia(
+  rif_homepet varchar(12) references hmpet.homepets(rif),
+  cedula_cliente varchar(12) references hmpet.clientes(cedula),
+  id_mascota varchar(15) references hmpet.mascota(id_mascota),
+  fecha date,
+
+  PRIMARY KEY (rif_homepet,cedula_cliente,id_mascota,fecha)
+);
+
+CREATE TABLE hmpet.enfermedades_masocta(
+  id_mascota varchar(15) references hmpet.mascota(id_mascota),
+  nombre_enfermedad varchar(20),
+
+  PRIMARY KEY (id_mascota,nombre_enfermedad)
+);
+
+CREATE TABLE hmpet.vacunas_mascota(
+  id_mascota varchar(15) references hmpet.mascota(id_mascota),
+  nombre_vacuna varchar(40),
+  fecha  date,
+
+  PRIMARY KEY(id_mascota,nombre_vacuna,fecha)
+);
+
+CREATE TABLE hmpet.comida_porciondiaria_peso(
+  id_comida varchar(10) references hmpet.comidas(id_comida),
+  porcion_g varchar(15),
+  peso_kg varchar(15),
+
+  PRIMARY KEY (id_comida,porcion_g,peso_kg)
+);
+
+
+
