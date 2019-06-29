@@ -71,7 +71,7 @@ CREATE TABLE hmpet.raza(
   pais varchar(15) NOT NULL ,
   iq int NOT NULL ,
   contextura varchar(20) NOT NULL ,
-  talla varchar(10) NOT NULL ,
+  talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L')),
   color varchar(20) NOT NULL ,
   altura varchar(15) NOT NULL ,
   peso varchar(15) NOT NULL ,
@@ -173,5 +173,71 @@ CREATE TABLE hmpet.factura_serv(
   fichaserv varchar(10) NOT NULL references hmpet.fichas_servicio(id_ficha),
 
   PRIMARY KEY (id_factura)
+);
+
+CREATE TABLE hmpet.factura_tienda(
+  id_factura varchar(10) references hmpet.facturas(id_factura),
+
+  PRIMARY KEY (id_factura)
+);
+
+CREATE TABLE hmpet.factura_proveedor(
+  id_factura varchar(10) references hmpet.facturas(id_factura),
+  id_ordenCompra varchar(15) NOT NULL references hmpet.ordenes_compra(id_ordencompra),
+  rif_prov varchar(12) NOT NULL references hmpet.proveedores(rif_proveedor),
+
+  PRIMARY KEY (id_factura)
+);
+
+CREATE TABLE hmpet.modos_pago(
+  nombre_modo varchar(25),
+
+  PRIMARY KEY (nombre_modo)
+);
+
+CREATE TABLE hmpet.productos(
+  id_producto varchar(10),
+  nombre_prod varchar(35) NOT NULL UNIQUE ,
+  descripcion varchar(60) NOT NULL ,
+  precio int NOT NULL CHECK(precio>=0),
+  instrucciones varchar(70)NOT NULL ,
+  nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie),
+  contenido varchar(25),
+
+  PRIMARY KEY (id_producto)
+);
+
+CREATE TABLE hmpet.comidas(
+  id_comida varchar(10) references hmpet.productos(id_producto),
+  talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L')),
+
+  PRIMARY KEY(id_comida)
+);
+
+CREATE TABLE hmpet.vacunas(
+  id_vacuna varchar(10) references hmpet.productos(id_producto),
+  edad_aplicacion varchar(10) NOT NULL ,
+
+  PRIMARY KEY (id_vacuna)
+);
+
+CREATE TABLE hmpet.proveedores(
+  rif_proveedor varchar(12),
+  nombre_prov varchar(45) NOT NULL ,
+  direccion varchar(60) NOT NULL ,
+  nombre_contacto varchar(60) NOT NULL ,
+  telefono_local varchar(15) NOT NULL ,
+  telefono_movil varchar(15) NOT NULL ,
+
+  PRIMARY KEY (rif_proveedor)
+);
+
+CREATE TABLE hmpet.ordenes_compra(
+  id_ordencompra varchar(15),
+  fec_creacion_orden date NOT NULL ,
+  rif_prov varchar(12) NOT NULL references hmpet.proveedores(rif_proveedor),
+  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
+
+  PRIMARY KEY (id_ordencompra)
 );
 
