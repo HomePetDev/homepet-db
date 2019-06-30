@@ -99,7 +99,7 @@ CREATE TABLE accesos(
 
 CREATE TABLE usuarios(
   cedula_id varchar(12),
-  pass varchar(15) ,
+  pass varchar(250) ,
   nombre varchar(60) NOT NULL ,
   direccion varchar(60) NOT NULL ,
   telefono varchar(15) NOT NULL ,
@@ -246,3 +246,166 @@ CREATE TABLE factura_proveedor(
 
   PRIMARY KEY (id_factura)
 );
+
+CREATE TABLE e_trabaja_h(
+  cedula_empleado varchar(12) references empleados(cedula),
+  rif_homepet varchar(12) references homepets(rif),
+  fec_ini date ,
+
+  PRIMARY KEY (cedula_empleado,rif_homepet,fec_ini)
+);
+
+CREATE TABLE E_realiza_serv(
+  cedula_empleado varchar(12) references empleados(cedula),
+  rif_homepet varchar(12) references homepets(rif),
+  nombre_serv varchar(20) NOT NULL,
+
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES servicios (rif,nombre),
+  PRIMARY KEY (cedula_empleado,rif_homepet,nombre_serv)
+);
+
+CREATE TABLE ficha_x_serv(
+  id_ficha varchar(10) references fichas_servicio(id_ficha),
+  rif_homepet varchar(12) references homepets(rif),
+  nombre_serv varchar(20) NOT NULL,
+  cedula_emp varchar(12) NOT NULL ,
+
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES servicios (rif,nombre),
+  PRIMARY KEY (id_ficha,rif_homepet,nombre_serv)
+);
+
+CREATE TABLE e_x_actividad(
+  cedula_emp varchar(12) references empleados(cedula),
+  rif_homepet varchar(12) references homepets(rif),
+  nombre_serv varchar(20) NOT NULL,
+  id_actividad int NOT NULL,
+
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES servicios (rif,nombre),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES actvidades (rif,nombre_serv, id_serial),
+
+  PRIMARY KEY(cedula_emp,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE ficha_x_actividad(
+  id_ficha varchar(10) references fichas_servicio(id_ficha),
+  rif_homepet varchar(12) references homepets(rif),
+  nombre_serv varchar(20) NOT NULL,
+  id_actividad int NOT NULL,
+
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES servicios (rif,nombre),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES actvidades (rif,nombre_serv, id_serial),
+
+  cedula_emp varchar(12) NOT NULL references empleados(cedula),
+
+  PRIMARY KEY (id_ficha,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE actividad_x_producto(
+  id_producto varchar(10) references productos(id_producto),
+  rif_homepet varchar(12) references homepets(rif),
+  nombre_serv varchar(20) NOT NULL,
+  id_actividad int NOT NULL, 
+  cantidad varchar(15) NOT NULL,
+
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES servicios (rif,nombre),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES actvidades (rif,nombre_serv, id_serial),
+  PRIMARY KEY (id_producto,rif_homepet,nombre_serv,id_actividad)
+);
+
+CREATE TABLE facturatienda_x_prod(
+  id_factura varchar(10) references factura_tienda(id_factura),
+  id_prod varchar(10) references productos(id_producto),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_factura,id_prod)
+);
+
+CREATE TABLE factura_x_modopago(
+  id_factura varchar(10) references facturas(id_factura),
+  nombre_modopago varchar(25) references modos_pago(nombre_modo),
+  fecha date ,
+  dato_modalidad varchar(20) NOT NULL ,
+  monto_pago int NOT NULL CHECK (monto_pago>=0),
+
+  PRIMARY KEY(id_factura,nombre_modopago,fecha)
+);
+
+CREATE TABLE producto_x_almacen(
+  id_prod varchar(10) references productos(id_producto),
+  id_almacen varchar(10) references almacen(id),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_prod,id_almacen)
+);
+
+CREATE TABLE homepet_x_proveedor(
+  rif_homepet varchar(12) references homepets(rif),
+  rif_proveedor varchar(12) references proveedores(rif_proveedor),
+
+  PRIMARY KEY (rif_homepet,rif_proveedor)
+);
+
+CREATE TABLE proveedor_x_prod(
+  rif_prov varchar(12) references proveedores(rif_proveedor),
+  id_prod varchar(10) references productos(id_producto),
+  fecha date,
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY (rif_prov,id_prod,fecha)
+);
+
+CREATE TABLE ordencompra_x_producto(
+  id_orden varchar(15) references ordenes_compra(id_ordencompra),
+  id_prod varchar(10) references productos(id_producto),
+  cantidad varchar(15) NOT NULL ,
+
+  PRIMARY KEY(id_orden,id_prod)
+);
+
+CREATE TABLE historia(
+  rif_homepet varchar(12) references homepets(rif),
+  cedula_cliente varchar(12) references clientes(cedula),
+  id_mascota varchar(15) references mascota(id_mascota),
+  fecha date,
+
+  PRIMARY KEY (rif_homepet,cedula_cliente,id_mascota,fecha)
+);
+
+CREATE TABLE enfermedades_masocta(
+  id_mascota varchar(15) references mascota(id_mascota),
+  nombre_enfermedad varchar(20),
+
+  PRIMARY KEY (id_mascota,nombre_enfermedad)
+);
+
+CREATE TABLE vacunas_mascota(
+  id_mascota varchar(15) references mascota(id_mascota),
+  nombre_vacuna varchar(40),
+  fecha  date,
+
+  PRIMARY KEY(id_mascota,nombre_vacuna,fecha)
+);
+
+CREATE TABLE comida_porciondiaria_peso(
+  id_comida varchar(10) references comidas(id_comida),
+  porcion_g varchar(15),
+  peso_kg varchar(15),
+
+  PRIMARY KEY (id_comida,porcion_g,peso_kg)
+);
+
+
+INSERT INTO accesos VALUES ('1', 'usuario');
+INSERT INTO accesos VALUES ('2', 'cliente');
+INSERT INTO accesos VALUES ('3', 'empleado');
+INSERT INTO accesos VALUES ('4', 'gerente');
+
+INSERT INTO animal VALUES ('perro', 'Animal de cuatro patas amigable y confiable');
+INSERT INTO animal VALUES ('gato', 'Animal de cuatro patas un poco mas odioso');
+INSERT INTO animal VALUES ('hamster', 'Pequeño peludo y muy jugueton');
+
+INSERT INTO modos_pago VALUES ('efectivo');
+INSERT INTO modos_pago VALUES ('cheque');
+INSERT INTO modos_pago VALUES ('tarjeta debito');
+INSERT INTO modos_pago VALUES ('tarjeta credito');
+INSERT INTO modos_pago VALUES ('transferencia');
