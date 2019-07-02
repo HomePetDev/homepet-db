@@ -2,7 +2,7 @@ CREATE SCHEMA hmpet
 
 CREATE TABLE  hmpet.animal(
   nombre_especie varchar(15),
-  desc_especie varchar(60) NOT NULL ,
+  desc_especie varchar(200) NOT NULL ,
 
   PRIMARY KEY (nombre_especie)
 );
@@ -10,8 +10,8 @@ CREATE TABLE  hmpet.animal(
 CREATE TABLE  hmpet.homepets (
   rif varchar(12),
   capacidad int NOT NULL ,
-  ciudad varchar(15) NOT NULL ,
-  sector varchar(15) NOT NULL ,
+  ciudad varchar(100) NOT NULL ,
+  sector varchar(100) NOT NULL ,
   telefono varchar(15) NOT NULL ,
   fecha_creacion TIMESTAMP  NOT NULL DEFAULT NOW() ,
   especializacion varchar(15) NOT NULL references hmpet.animal(nombre_especie),
@@ -22,17 +22,17 @@ CREATE TABLE  hmpet.homepets (
 CREATE TABLE  hmpet.servicios (
   rif varchar(12) references hmpet.homepets(rif),
   nombre varchar(20),
-  desc_servicio varchar(60) NOT NULL ,
+  desc_servicio varchar(200) NOT NULL ,
 
   PRIMARY KEY(rif,nombre)
 
 );
 
-CREATE TABLE  hmpet.actvidades(
+CREATE TABLE  hmpet.actividades(
   rif varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(15),
   id_serial int,
-  desc_actividad varchar(60) NOT NULL ,
+  desc_actividad varchar(200) NOT NULL ,
   precio int NOT NULL CHECK(precio>=0)  ,
 
   FOREIGN KEY (rif, nombre_serv ) REFERENCES hmpet.servicios (rif, nombre), 
@@ -106,29 +106,29 @@ CREATE TABLE  hmpet.usuarios(
   direccion varchar(60) NOT NULL ,
   telefono varchar(15) NOT NULL ,
   fecha_reg TIMESTAMP NOT NULL DEFAULT NOW(),
-  id_acceso varchar(15)NOT NULL references hmpet.accesos(id) ,
+  id_acceso varchar(15)NOT NULL references hmpet.accesos(id) DEFAULT 1,
 
   PRIMARY KEY(cedula_id)
 );
 
 CREATE TABLE  hmpet.empleados(
-  cedula varchar(12) references hmpet.usuarios(cedula_id),
-  sueldo int NOT NULL CHECK (sueldo>=0)  ,
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
+  sueldo bigint NOT NULL CHECK (sueldo>=0)  ,
 
   PRIMARY KEY (cedula)
 );
 
 CREATE TABLE  hmpet.gerentes(
-  cedula varchar(12) references hmpet.usuarios(cedula_id) ,
-  sueldo int NOT NULL CHECK (sueldo>=0)  ,
-  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif)  ,
-  fecha_ini TIMESTAMP,
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
+  sueldo bigint NOT NULL CHECK (sueldo>=0)  ,
+  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE ,
+  fecha_ini TIMESTAMP NOT NULL DEFAULT NOW(),
 
   PRIMARY KEY (cedula)
 );
 
 CREATE TABLE  hmpet.clientes(
-  cedula varchar(12) references hmpet.usuarios(cedula_id),
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
   email varchar (25) NOT NULL ,
 
   PRIMARY KEY (cedula)
@@ -165,7 +165,7 @@ CREATE TABLE  hmpet.reservas(
 CREATE TABLE  hmpet.facturas(
   id_factura varchar(10),
   monto int NOT NULL CHECK(monto >=0)  ,
-  fecha_creacion TIMESTAMP NOT NULL ,
+  fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW() ,
   descuento int CHECK(descuento>=0),
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ,
   cedula_client varchar(12) NOT NULL references hmpet.clientes(cedula) ,
@@ -198,9 +198,9 @@ CREATE TABLE  hmpet.modos_pago(
 CREATE TABLE  hmpet.productos(
   id_producto varchar(10),
   nombre_prod varchar(35) NOT NULL UNIQUE ,
-  descripcion varchar(60) NOT NULL ,
+  descripcion varchar(200) NOT NULL ,
   precio int NOT NULL CHECK(precio>=0),
-  instrucciones varchar(70)NOT NULL ,
+  instrucciones varchar(200)NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie),
   contenido varchar(25),
 
@@ -234,7 +234,7 @@ CREATE TABLE  hmpet.proveedores(
 
 CREATE TABLE  hmpet.ordenes_compra(
   id_ordencompra varchar(15),
-  fec_creacion_orden TIMESTAMP NOT NULL ,
+  fec_creacion_orden TIMESTAMP NOT NULL DEFAULT NOW(),
   rif_prov varchar(12) NOT NULL references hmpet.proveedores(rif_proveedor),
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
 
@@ -250,9 +250,9 @@ CREATE TABLE  hmpet.factura_proveedor(
 );
 
 CREATE TABLE  hmpet.e_trabaja_h(
-  cedula_empleado varchar(12) references hmpet.empleados(cedula),
-  rif_homepet varchar(12) references hmpet.homepets(rif),
-  fec_ini date ,
+  cedula_empleado varchar(12) references hmpet.empleados(cedula) ON DELETE CASCADE,
+  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE ,
+  fec_ini TIMESTAMP NOT NULL DEFAULT NOW() ,
 
   PRIMARY KEY (cedula_empleado,rif_homepet,fec_ini)
 );
@@ -283,7 +283,7 @@ CREATE TABLE  hmpet.e_x_actividad(
   id_actividad int NOT NULL,
 
   FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre),
-  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actvidades (rif,nombre_serv, id_serial),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actividades (rif,nombre_serv, id_serial),
 
   PRIMARY KEY(cedula_emp,rif_homepet,nombre_serv,id_actividad)
 );
@@ -295,7 +295,7 @@ CREATE TABLE  hmpet.ficha_x_actividad(
   id_actividad int NOT NULL,
 
   FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre),
-  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actvidades (rif,nombre_serv, id_serial),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actividades (rif,nombre_serv, id_serial),
 
   cedula_emp varchar(12) NOT NULL references hmpet.empleados(cedula),
 
@@ -310,7 +310,7 @@ CREATE TABLE  hmpet.actividad_x_producto(
   cantidad varchar(15) NOT NULL,
 
   FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre),
-  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actvidades (rif,nombre_serv, id_serial),
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actividades (rif,nombre_serv, id_serial),
   PRIMARY KEY (id_producto,rif_homepet,nombre_serv,id_actividad)
 );
 
