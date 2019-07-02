@@ -1,4 +1,4 @@
-CREATE SCHEMA hmpet
+CREATE SCHEMA hmpet;
 
 CREATE TABLE  hmpet.animal(
   nombre_especie varchar(15),
@@ -93,7 +93,7 @@ CREATE TABLE  hmpet.mascota(
 );
 
 CREATE TABLE  hmpet.accesos(
-  id varchar(15),
+  id INT NOT NULL,
   nombre_rol varchar(15) NOT NULL ,
 
   PRIMARY KEY (id)
@@ -106,7 +106,7 @@ CREATE TABLE  hmpet.usuarios(
   direccion varchar(60) NOT NULL ,
   telefono varchar(15) NOT NULL ,
   fecha_reg TIMESTAMP NOT NULL DEFAULT NOW(),
-  id_acceso varchar(15)NOT NULL references hmpet.accesos(id) DEFAULT 1,
+  id_acceso INT NOT NULL DEFAULT 1 references hmpet.accesos(id) ,
 
   PRIMARY KEY(cedula_id)
 );
