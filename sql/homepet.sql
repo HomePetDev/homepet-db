@@ -112,23 +112,23 @@ CREATE TABLE  hmpet.usuarios(
 );
 
 CREATE TABLE  hmpet.empleados(
-  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE RESTRICT ON UPDATE RESTRICT ,
   sueldo bigint NOT NULL CHECK (sueldo>=0)  ,
 
   PRIMARY KEY (cedula)
 );
 
 CREATE TABLE  hmpet.gerentes(
-  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   sueldo bigint NOT NULL CHECK (sueldo>=0)  ,
-  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE ,
+  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE ON UPDATE RESTRICT  ,
   fecha_ini TIMESTAMP NOT NULL DEFAULT NOW(),
 
   PRIMARY KEY (cedula)
 );
 
 CREATE TABLE  hmpet.clientes(
-  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE CASCADE,
+  cedula varchar(12) references hmpet.usuarios(cedula_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   email varchar (25) NOT NULL ,
 
   PRIMARY KEY (cedula)
@@ -250,8 +250,8 @@ CREATE TABLE  hmpet.factura_proveedor(
 );
 
 CREATE TABLE  hmpet.e_trabaja_h(
-  cedula_empleado varchar(12) references hmpet.empleados(cedula) ON DELETE CASCADE,
-  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE ,
+  cedula_empleado varchar(12) references hmpet.empleados(cedula) ON DELETE CASCADE ON UPDATE RESTRICT,
+  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE ON UPDATE RESTRICT ,
   fec_ini TIMESTAMP NOT NULL DEFAULT NOW() ,
 
   PRIMARY KEY (cedula_empleado,rif_homepet,fec_ini)
