@@ -42,7 +42,7 @@ CREATE TABLE  hmpet.actividades(
 
 CREATE TABLE  hmpet.almacen(
   id varchar(10),
-  capacidad_alamcen int NOT NULL ,
+  capacidad int NOT NULL ,
   rifHmpet varchar(12)NOT NULL  references hmpet.homepets(rif) ,
 
   PRIMARY KEY (id)
@@ -52,14 +52,14 @@ CREATE TABLE  hmpet.almacen(
 CREATE TABLE  hmpet.raza(
   nombre_especie varchar(15)references hmpet.animal(nombre_especie),
   nombre_raza varchar(15),
-  descripcion varchar(40) NOT NULL ,
+  descripcion varchar(100) NOT NULL ,
   pais varchar(15) NOT NULL ,
   iq int NOT NULL ,
   contextura varchar(20) NOT NULL ,
   talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L')),
   color varchar(20) NOT NULL ,
-  altura varchar(15) NOT NULL ,
-  peso varchar(15) NOT NULL ,
+  altura varchar(100) NOT NULL ,
+  peso varchar(100) NOT NULL ,
 
   PRIMARY KEY(nombre_especie,nombre_raza)
 );
@@ -405,6 +405,7 @@ INSERT INTO hmpet.accesos VALUES ('4', 'gerente');
 INSERT INTO hmpet.animal VALUES ('perro', 'Animal de cuatro patas amigable y confiable');
 INSERT INTO hmpet.animal VALUES ('gato', 'Animal de cuatro patas un poco mas odioso');
 INSERT INTO hmpet.animal VALUES ('hamster', 'Pequeño peludo y muy jugueton');
+INSERT INTO hmpet.animal VALUES ('delfin', 'Animal acuatico muy inteligente');
 
 INSERT INTO hmpet.modos_pago VALUES ('efectivo');
 INSERT INTO hmpet.modos_pago VALUES ('cheque');
