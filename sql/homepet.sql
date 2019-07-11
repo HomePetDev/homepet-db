@@ -77,7 +77,7 @@ CREATE TABLE  hmpet.veterinario(
 CREATE TABLE  hmpet.mascota(
   id_mascota varchar(15),
   nombre varchar(20) NOT NULL ,
-  fecha_nac TIMESTAMP NOT NULL ,
+  fecha_nac DATE NOT NULL ,
   sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
   edad int NOT NULL CHECK (edad>=0)  ,
   cantidad varchar(25) NOT NULL ,
