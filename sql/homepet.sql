@@ -70,7 +70,7 @@ CREATE TABLE  hmpet.veterinario(
   nombre_vet varchar(60) NOT NULL ,
   telefono varchar(15)  ,
 
-  PRIMARY KEY (id)
+  PRIMARY KEY (cedula)
 );
 
 
@@ -84,7 +84,7 @@ CREATE TABLE  hmpet.mascota(
   alimento varchar(25) NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
   nombre_raza varchar(15) NOT NULL,
-  cedula_vet varchar(12) references hmpet.veterinario(id)  ,
+  cedula_vet varchar(12) references hmpet.veterinario(cedula)  ,
   cedula_owner varchar(12) NOT NULL ,
 
   FOREIGN KEY (nombre_especie, nombre_raza) REFERENCES hmpet.raza (nombre_especie, nombre_raza),
