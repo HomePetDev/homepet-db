@@ -43,8 +43,8 @@ CREATE TABLE  hmpet.actividades(
 CREATE TABLE  hmpet.almacen(
   id varchar(10),
   descripcion VARCHAR (50), 
-  capacidad int NOT NULL ,
-  rifHmpet varchar(12)NOT NULL  references hmpet.homepets(rif) ,
+  capacidad BIGINT NOT NULL ,
+  rifHmpet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE ON UPDATE RESTRICT  ,
 
   PRIMARY KEY (id)
 
@@ -128,7 +128,7 @@ CREATE TABLE  hmpet.mascota(
   alimento varchar(25) NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
   nombre_raza varchar(15) NOT NULL,
-  cedula_vet varchar(12) references hmpet.veterinario(cedula) ON DELETE CASCADE ON UPDATE RESTRICT ,
+  cedula_vet varchar(12) references hmpet.veterinario(cedula) ON DELETE RESTRICT ON UPDATE RESTRICT ,
   cedula_owner varchar(12) NOT NULL references hmpet.clientes(cedula) ON DELETE CASCADE ON UPDATE RESTRICT ,
 
   FOREIGN KEY (nombre_especie, nombre_raza) REFERENCES hmpet.raza (nombre_especie, nombre_raza),
@@ -211,14 +211,14 @@ CREATE TABLE  hmpet.productos(
 );
 
 CREATE TABLE  hmpet.comidas(
-  id_comida varchar(10) references hmpet.productos(id_producto),
+  id_comida varchar(10) references hmpet.productos(id_producto) ON DELETE CASCADE ON UPDATE RESTRICT,
   talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L', 'XL')),
 
   PRIMARY KEY(id_comida)
 );
 
 CREATE TABLE  hmpet.vacunas(
-  id_vacuna varchar(100) references hmpet.productos(id_producto),
+  id_vacuna varchar(100) references hmpet.productos(id_producto) ON DELETE CASCADE ON UPDATE RESTRICT,
   edad_aplicacion varchar(10) NOT NULL ,
 
   PRIMARY KEY (id_vacuna)
@@ -306,14 +306,14 @@ CREATE TABLE  hmpet.ficha_x_actividad(
 );
 
 CREATE TABLE  hmpet.actividad_x_producto(
-  id_producto varchar(100) references hmpet.productos(id_producto),
-  rif_homepet varchar(12) references hmpet.homepets(rif),
+  id_producto varchar(100) references hmpet.productos(id_producto) ON DELETE RESTRICT,
+  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE,
   nombre_serv varchar(20) NOT NULL,
   id_actividad int NOT NULL, 
   cantidad varchar(15) NOT NULL,
 
-  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre),
-  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actividades (rif,nombre_serv, id_serial),
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre) ON DELETE RESTRICT,
+  FOREIGN KEY (rif_homepet, nombre_serv, id_actividad) REFERENCES hmpet.actividades (rif,nombre_serv, id_serial) ON DELETE RESTRICT,
   PRIMARY KEY (id_producto,rif_homepet,nombre_serv,id_actividad)
 );
 
@@ -336,8 +336,8 @@ CREATE TABLE  hmpet.factura_x_modopago(
 );
 
 CREATE TABLE  hmpet.producto_x_almacen(
-  id_prod varchar(10) references hmpet.productos(id_producto),
-  id_almacen varchar(10) references hmpet.almacen(id),
+  id_prod varchar(10) references hmpet.productos(id_producto) ON DELETE CASCADE,
+  id_almacen varchar(10) references hmpet.almacen(id) ON DELETE CASCADE,
   cantidad BIGINT NOT NULL ,
 
   PRIMARY KEY(id_prod,id_almacen)
@@ -368,7 +368,7 @@ CREATE TABLE  hmpet.ordencompra_x_producto(
 );
 
 CREATE TABLE  hmpet.historia(
-  rif_homepet varchar(12) references hmpet.homepets(rif),
+  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE,
   cedula_cliente varchar(12) references hmpet.clientes(cedula),
   id_mascota varchar(15) references hmpet.mascota(id_mascota),
   fecha date,
@@ -377,16 +377,16 @@ CREATE TABLE  hmpet.historia(
 );
 
 CREATE TABLE  hmpet.enfermedades_mascota(
-  id_mascota varchar(15) references hmpet.mascota(id_mascota),
+  id_mascota varchar(15) references hmpet.mascota(id_mascota) ON DELETE CASCADE ON UPDATE RESTRICT,
   nombre_enfermedad varchar(20),
 
   PRIMARY KEY (id_mascota,nombre_enfermedad)
 );
 
 CREATE TABLE  hmpet.vacunas_mascota(
-  id_mascota varchar(15) references hmpet.mascota(id_mascota),
-  nombre_vacuna varchar(40),
-  fecha  date,
+  id_mascota varchar(15) references hmpet.mascota(id_mascota) ON DELETE CASCADE ON UPDATE RESTRICT,
+  nombre_vacuna varchar(100),
+  fecha  DATE,
 
   PRIMARY KEY(id_mascota,nombre_vacuna,fecha)
 );
