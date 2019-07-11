@@ -42,6 +42,7 @@ CREATE TABLE  hmpet.actividades(
 
 CREATE TABLE  hmpet.almacen(
   id varchar(10),
+  descripcion VARCHAR (50), 
   capacidad int NOT NULL ,
   rifHmpet varchar(12)NOT NULL  references hmpet.homepets(rif) ,
 
@@ -122,8 +123,7 @@ CREATE TABLE  hmpet.mascota(
   id_mascota varchar(100),
   nombre varchar(20) NOT NULL ,
   fecha_nac DATE NOT NULL ,
-  sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
-  edad int NOT NULL CHECK (edad>=0)  ,
+  sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M'),
   cantidad varchar(25) NOT NULL ,
   alimento varchar(25) NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
@@ -338,7 +338,7 @@ CREATE TABLE  hmpet.factura_x_modopago(
 CREATE TABLE  hmpet.producto_x_almacen(
   id_prod varchar(10) references hmpet.productos(id_producto),
   id_almacen varchar(10) references hmpet.almacen(id),
-  cantidad varchar(15) NOT NULL ,
+  cantidad BIGINT NOT NULL ,
 
   PRIMARY KEY(id_prod,id_almacen)
 );
