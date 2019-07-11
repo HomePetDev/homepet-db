@@ -75,7 +75,7 @@ CREATE TABLE  hmpet.veterinario(
 
 
 CREATE TABLE  hmpet.mascota(
-  id_mascota varchar(50),
+  id_mascota varchar(100),
   nombre varchar(20) NOT NULL ,
   fecha_nac DATE NOT NULL ,
   sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
@@ -136,7 +136,7 @@ CREATE TABLE  hmpet.clientes(
 
 
 CREATE TABLE  hmpet.fichas_servicio(
-  id_ficha varchar(10),
+  id_ficha varchar(100),
   fec_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
   nombreAuth varchar(60) NOT NULL ,
   tlfAuth varchar(15) NOT NULL ,
@@ -146,13 +146,13 @@ CREATE TABLE  hmpet.fichas_servicio(
   fec_salidareal TIMESTAMP,
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
   cedula_cliente varchar(12) NOT NULL references hmpet.clientes(cedula),
-  id_mascota varchar(50) NOT NULL references hmpet.mascota(id_mascota),
+  id_mascota varchar(100) NOT NULL references hmpet.mascota(id_mascota),
 
   PRIMARY KEY (id_ficha)
 );
 
 CREATE TABLE  hmpet.reservas(
-  id_reserva varchar(10) NOT NULL ,
+  id_reserva varchar(100) NOT NULL ,
   fec_entrada TIMESTAMP NOT NULL ,
   descripcion varchar(60) NOT NULL ,
   aplicada boolean NOT NULL ,
@@ -163,7 +163,7 @@ CREATE TABLE  hmpet.reservas(
 
 
 CREATE TABLE  hmpet.facturas(
-  id_factura varchar(10),
+  id_factura varchar(100),
   monto int NOT NULL CHECK(monto >=0)  ,
   fecha_creacion TIMESTAMP NOT NULL DEFAULT NOW() ,
   descuento int CHECK(descuento>=0),
@@ -174,7 +174,7 @@ CREATE TABLE  hmpet.facturas(
 );
 
 CREATE TABLE  hmpet.factura_serv(
-  id_factura varchar(10) references hmpet.facturas(id_factura),
+  id_factura varchar(100) references hmpet.facturas(id_factura),
   pagada boolean NOT NULL ,
   fec_pagada TIMESTAMP NOT NULL ,
   fichaserv varchar(10) NOT NULL references hmpet.fichas_servicio(id_ficha),
@@ -196,7 +196,7 @@ CREATE TABLE  hmpet.modos_pago(
 );
 
 CREATE TABLE  hmpet.productos(
-  id_producto varchar(10),
+  id_producto varchar(100),
   nombre_prod varchar(35) NOT NULL UNIQUE ,
   descripcion varchar(200) NOT NULL , 
   precio int NOT NULL CHECK(precio>=0),
@@ -215,7 +215,7 @@ CREATE TABLE  hmpet.comidas(
 );
 
 CREATE TABLE  hmpet.vacunas(
-  id_vacuna varchar(10) references hmpet.productos(id_producto),
+  id_vacuna varchar(100) references hmpet.productos(id_producto),
   edad_aplicacion varchar(10) NOT NULL ,
 
   PRIMARY KEY (id_vacuna)
@@ -233,7 +233,7 @@ CREATE TABLE  hmpet.proveedores(
 );
 
 CREATE TABLE  hmpet.ordenes_compra(
-  id_ordencompra varchar(15),
+  id_ordencompra varchar(100),
   fec_creacion_orden TIMESTAMP NOT NULL DEFAULT NOW(),
   rif_prov varchar(12) NOT NULL references hmpet.proveedores(rif_proveedor),
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
@@ -267,7 +267,7 @@ CREATE TABLE  hmpet.E_realiza_serv(
 );
 
 CREATE TABLE  hmpet.ficha_x_serv(
-  id_ficha varchar(10) references hmpet.fichas_servicio(id_ficha),
+  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha),
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
   cedula_emp varchar(12) NOT NULL ,
@@ -289,7 +289,7 @@ CREATE TABLE  hmpet.e_x_actividad(
 );
 
 CREATE TABLE  hmpet.ficha_x_actividad(
-  id_ficha varchar(10) references hmpet.fichas_servicio(id_ficha),
+  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha),
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
   id_actividad int NOT NULL,
@@ -303,7 +303,7 @@ CREATE TABLE  hmpet.ficha_x_actividad(
 );
 
 CREATE TABLE  hmpet.actividad_x_producto(
-  id_producto varchar(10) references hmpet.productos(id_producto),
+  id_producto varchar(100) references hmpet.productos(id_producto),
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
   id_actividad int NOT NULL, 
@@ -323,7 +323,7 @@ CREATE TABLE  hmpet.facturatienda_x_prod(
 );
 
 CREATE TABLE  hmpet.factura_x_modopago(
-  id_factura varchar(10) references hmpet.facturas(id_factura),
+  id_factura varchar(100) references hmpet.facturas(id_factura),
   nombre_modopago varchar(25) references hmpet.modos_pago(nombre_modo),
   fecha date ,
   dato_modalidad varchar(20) NOT NULL ,
@@ -349,7 +349,7 @@ CREATE TABLE  hmpet.homepet_x_proveedor(
 
 CREATE TABLE  hmpet.proveedor_x_prod(
   rif_prov varchar(12) references hmpet.proveedores(rif_proveedor),
-  id_prod varchar(10) references hmpet.productos(id_producto),
+  id_prod varchar(100) references hmpet.productos(id_producto),
   fecha date,
   cantidad varchar(15) NOT NULL ,
 
@@ -389,7 +389,7 @@ CREATE TABLE  hmpet.vacunas_mascota(
 );
 
 CREATE TABLE  hmpet.comida_porciondiaria_peso(
-  id_comida varchar(10) references hmpet.comidas(id_comida),
+  id_comida varchar(100) references hmpet.comidas(id_comida),
   porcion_g varchar(15),
   peso_kg varchar(15),
 
