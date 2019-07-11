@@ -49,49 +49,6 @@ CREATE TABLE  hmpet.almacen(
 
 );
 
-CREATE TABLE  hmpet.raza(
-  nombre_especie varchar(15)references hmpet.animal(nombre_especie),
-  nombre_raza varchar(15),
-  descripcion varchar(255) NOT NULL ,
-  pais varchar(15) NOT NULL ,
-  iq varchar(255) NOT NULL ,
-  talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L', 'XL')),
-  color varchar(255) NOT NULL ,
-  altura varchar(255) NOT NULL ,
-  peso varchar(255) NOT NULL ,
-  fotoUrl varchar(255),
-
-  PRIMARY KEY(nombre_especie,nombre_raza)
-);
-
-
-CREATE TABLE  hmpet.veterinario(
-  cedula varchar(12),
-  nombre_vet varchar(60) NOT NULL ,
-  telefono varchar(15)  ,
-
-  PRIMARY KEY (cedula)
-);
-
-
-CREATE TABLE  hmpet.mascota(
-  id_mascota varchar(100),
-  nombre varchar(20) NOT NULL ,
-  fecha_nac DATE NOT NULL ,
-  sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
-  edad int NOT NULL CHECK (edad>=0)  ,
-  cantidad varchar(25) NOT NULL ,
-  alimento varchar(25) NOT NULL ,
-  nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
-  nombre_raza varchar(15) NOT NULL,
-  cedula_vet varchar(12) references hmpet.veterinario(cedula)  ,
-  cedula_owner varchar(12) NOT NULL ,
-
-  FOREIGN KEY (nombre_especie, nombre_raza) REFERENCES hmpet.raza (nombre_especie, nombre_raza),
-  PRIMARY KEY (id_mascota)
-
-);
-
 CREATE TABLE  hmpet.accesos(
   id INT NOT NULL,
   nombre_rol varchar(15) NOT NULL ,
@@ -133,6 +90,52 @@ CREATE TABLE  hmpet.clientes(
 
   PRIMARY KEY (cedula)
 );
+
+
+
+CREATE TABLE  hmpet.raza(
+  nombre_especie varchar(15)references hmpet.animal(nombre_especie),
+  nombre_raza varchar(15),
+  descripcion varchar(255) NOT NULL ,
+  pais varchar(15) NOT NULL ,
+  iq varchar(255) NOT NULL ,
+  talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L', 'XL')),
+  color varchar(255) NOT NULL ,
+  altura varchar(255) NOT NULL ,
+  peso varchar(255) NOT NULL ,
+  fotoUrl varchar(255),
+
+  PRIMARY KEY(nombre_especie,nombre_raza)
+);
+
+
+CREATE TABLE  hmpet.veterinario(
+  cedula varchar(12),
+  nombre_vet varchar(60) NOT NULL ,
+  telefono varchar(15)  ,
+
+  PRIMARY KEY (cedula)
+);
+
+
+CREATE TABLE  hmpet.mascota(
+  id_mascota varchar(100),
+  nombre varchar(20) NOT NULL ,
+  fecha_nac DATE NOT NULL ,
+  sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
+  edad int NOT NULL CHECK (edad>=0)  ,
+  cantidad varchar(25) NOT NULL ,
+  alimento varchar(25) NOT NULL ,
+  nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
+  nombre_raza varchar(15) NOT NULL,
+  cedula_vet varchar(12) references hmpet.veterinario(cedula) ON DELETE CASCADE ON UPDATE RESTRICT ,
+  cedula_owner varchar(12) NOT NULL references hmpet.clientes(cedula) ON DELETE CASCADE ON UPDATE RESTRICT ,
+
+  FOREIGN KEY (nombre_especie, nombre_raza) REFERENCES hmpet.raza (nombre_especie, nombre_raza),
+  PRIMARY KEY (id_mascota)
+
+);
+
 
 
 CREATE TABLE  hmpet.fichas_servicio(
