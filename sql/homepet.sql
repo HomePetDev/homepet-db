@@ -75,7 +75,7 @@ CREATE TABLE  hmpet.veterinario(
 
 
 CREATE TABLE  hmpet.mascota(
-  id_mascota varchar(15),
+  id_mascota varchar(50),
   nombre varchar(20) NOT NULL ,
   fecha_nac DATE NOT NULL ,
   sexo char NOT NULL CHECK (sexo = 'F' OR sexo = 'M')  ,
@@ -146,7 +146,7 @@ CREATE TABLE  hmpet.fichas_servicio(
   fec_salidareal TIMESTAMP,
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
   cedula_cliente varchar(12) NOT NULL references hmpet.clientes(cedula),
-  id_mascota varchar(15) NOT NULL references hmpet.mascota(id_mascota),
+  id_mascota varchar(50) NOT NULL references hmpet.mascota(id_mascota),
 
   PRIMARY KEY (id_ficha)
 );
