@@ -275,7 +275,7 @@ CREATE TABLE  hmpet.ficha_x_serv(
   nombre_serv varchar(20) NOT NULL,
   cedula_emp varchar(12) NOT NULL ,
 
-  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre),
+  FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre) ON DELETE RESTRICT,
   PRIMARY KEY (id_ficha,rif_homepet,nombre_serv)
 );
 
@@ -318,7 +318,7 @@ CREATE TABLE  hmpet.actividad_x_producto(
 );
 
 CREATE TABLE  hmpet.facturatienda_x_prod(
-  id_factura varchar(10) references hmpet.factura_tienda(id_factura),
+  id_factura varchar(10) references hmpet.factura_tienda(id_factura) ON DELETE RESTRICT,
   id_prod varchar(10) references hmpet.productos(id_producto),
   cantidad varchar(15) NOT NULL ,
 
