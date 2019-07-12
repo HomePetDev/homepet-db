@@ -64,7 +64,7 @@ CREATE TABLE  hmpet.usuarios(
   direccion varchar(60) NOT NULL ,
   telefono varchar(15) NOT NULL ,
   fecha_reg TIMESTAMP NOT NULL DEFAULT NOW(),
-  id_acceso INT NOT NULL DEFAULT 1 references hmpet.accesos(id) ,
+  id_acceso INT NOT NULL DEFAULT 1 references hmpet.accesos(id) ON DELETE RESTRICT ON UPDATE RESTRICT,
 
   PRIMARY KEY(cedula_id)
 );
@@ -128,12 +128,19 @@ CREATE TABLE  hmpet.mascota(
   alimento varchar(25) NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie) ,
   nombre_raza varchar(15) NOT NULL,
-  cedula_vet varchar(12) references hmpet.veterinario(cedula) ON DELETE RESTRICT ON UPDATE RESTRICT ,
+  -- cedula_vet varchar(12) references hmpet.veterinario(cedula) ON DELETE RESTRICT ON UPDATE RESTRICT ,
   cedula_owner varchar(12) NOT NULL references hmpet.clientes(cedula) ON DELETE CASCADE ON UPDATE RESTRICT ,
 
   FOREIGN KEY (nombre_especie, nombre_raza) REFERENCES hmpet.raza (nombre_especie, nombre_raza),
   PRIMARY KEY (id_mascota)
 
+);
+
+CREATE TABLE hmpet.veterinario_x_mascota(
+  cedula_vet VARCHAR(12) REFERENCES hmpet.veterinario(cedula) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  id_mascota varchar(100) REFERENCES hmpet.mascota(id_mascota) ON DELETE CASCADE ON UPDATE RESTRICT,
+
+  PRIMARY KEY (cedula_vet, id_mascota)
 );
 
 
@@ -368,10 +375,10 @@ CREATE TABLE  hmpet.ordencompra_x_producto(
 );
 
 CREATE TABLE  hmpet.historia(
-  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE,
+  rif_homepet varchar(12) references hmpet.homepets(rif) ON DELETE CASCADE ON UPDATE RESTRICT,
   cedula_cliente varchar(12) references hmpet.clientes(cedula),
   id_mascota varchar(15) references hmpet.mascota(id_mascota),
-  fecha date,
+  fecha TIMESTAMP NOT NULL DEFAULT NOW(),
 
   PRIMARY KEY (rif_homepet,cedula_cliente,id_mascota,fecha)
 );
