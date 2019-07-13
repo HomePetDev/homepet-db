@@ -151,12 +151,12 @@ CREATE TABLE  hmpet.fichas_servicio(
   nombreAuth varchar(60) NOT NULL ,
   tlfAuth varchar(15) NOT NULL ,
   cedulaAuth varchar(12) NOT NULL ,
-  fec_entrada TIMESTAMP NOT NULL ,
-  fec_salidaest TIMESTAMP NOT NULL ,
-  fec_salidareal TIMESTAMP,
-  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif),
-  cedula_cliente varchar(12) NOT NULL references hmpet.clientes(cedula),
-  id_mascota varchar(100) NOT NULL references hmpet.mascota(id_mascota),
+  fec_entrada DATE  ,
+  fec_salidaest DATE  ,
+  fec_salidareal DATE,
+  rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE,
+  cedula_cliente varchar(12) NOT NULL references hmpet.clientes(cedula) ON DELETE CASCADE,
+  id_mascota varchar(100) NOT NULL references hmpet.mascota(id_mascota) ON DELETE CASCADE,
 
   PRIMARY KEY (id_ficha)
 );
@@ -212,14 +212,14 @@ CREATE TABLE  hmpet.productos(
   precio int NOT NULL CHECK(precio>=0),
   instrucciones varchar(200)NOT NULL ,
   nombre_especie varchar(15) NOT NULL references hmpet.animal(nombre_especie),
-  contenido varchar(25),
-
+ 
   PRIMARY KEY (id_producto)
 );
 
 CREATE TABLE  hmpet.comidas(
   id_comida varchar(10) references hmpet.productos(id_producto) ON DELETE CASCADE ON UPDATE RESTRICT,
   talla varchar(10) NOT NULL CHECK (talla IN ('S','M','L', 'XL')),
+  porcion VARCHAR (50) NOT NULL,
 
   PRIMARY KEY(id_comida)
 );
@@ -277,7 +277,7 @@ CREATE TABLE  hmpet.E_realiza_serv(
 );
 
 CREATE TABLE  hmpet.ficha_x_serv(
-  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha),
+  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha) ON DELETE CASCADE ON UPDATE RESTRICT,
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
   cedula_emp varchar(12) NOT NULL ,
@@ -299,7 +299,7 @@ CREATE TABLE  hmpet.e_x_actividad(
 );
 
 CREATE TABLE  hmpet.ficha_x_actividad(
-  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha),
+  id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha) ON DELETE CASCADE ON UPDATE RESTRICT,
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
   id_actividad int NOT NULL,
@@ -396,14 +396,6 @@ CREATE TABLE  hmpet.vacunas_mascota(
   fecha  DATE,
 
   PRIMARY KEY(id_mascota,nombre_vacuna,fecha)
-);
-
-CREATE TABLE  hmpet.comida_porciondiaria_peso(
-  id_comida varchar(100) references hmpet.comidas(id_comida),
-  porcion_g varchar(15),
-  peso_kg varchar(15),
-
-  PRIMARY KEY (id_comida,porcion_g,peso_kg)
 );
 
 
