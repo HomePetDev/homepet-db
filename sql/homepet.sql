@@ -477,9 +477,9 @@ INSERT INTO hmpet.raza VALUES ('perro', 'chihuahua',
 
 --RAZAS DE GATOS
 
-INSERT INTO hmpet.raza VALUES ('Gato','Curl Americano','Orejas curvadas hacia afuera y apariencia dulce','Estados Unidos',150,'Fuerte','M','Todos','20-25cm','5-6kg');
-INSERT INTO hmpet.raza VALUES ('Gato','Montes','Salvaje en peligro de extincion','Africa',130,'Fuerte','L','Todos','20-25cm','6-8kg');
-INSERT INTO hmpet.raza VALUES ('Gato','Burmes','Raza antigua similar a los siameses','Asia, Myanmar',160,'Fuerte','M','Todos','20-25cm','3-5kg');
-INSERT INTO hmpet.raza VALUES ('Gato','Scottish fold','adorables orejas caidas y mirada tierna','Reino Unido',200,'Fuerte','M','Todos','15-20cm','2-6kg');
-INSERT INTO hmpet.raza VALUES ('Gato','Korat','Portadores de fortuna y buena suerte','Tailandia',180,'Fuerte','Pequeña','Todos','15-20cm','3-5kg');
-INSERT INTO hmpet.raza VALUES ('Gato','Cartujo','De caracter docil y cariñoso','Francia',140,'Fuerte','Grande','Azul Solido','20-25cm','6-8kg');
+INSERT INTO hmpet.raza VALUES ('gato','Curl Americano','Orejas curvadas hacia afuera y apariencia dulce','Estados Unidos',150,'Fuerte','M','Todos','20-25cm','5-6kg');
+INSERT INTO hmpet.raza VALUES ('gato','Montes','Salvaje en peligro de extincion','Africa',130,'Fuerte','L','Todos','20-25cm','6-8kg');
+INSERT INTO hmpet.raza VALUES ('gato','Burmes','Raza antigua similar a los siameses','Asia, Myanmar',160,'Fuerte','M','Todos','20-25cm','3-5kg');
+INSERT INTO hmpet.raza VALUES ('gato','Scottish fold','adorables orejas caidas y mirada tierna','Reino Unido',200,'Fuerte','M','Todos','15-20cm','2-6kg');
+INSERT INTO hmpet.raza VALUES ('gato','Korat','Portadores de fortuna y buena suerte','Tailandia',180,'Fuerte','Pequeña','Todos','15-20cm','3-5kg');
+INSERT INTO hmpet.raza VALUES ('gato','Cartujo','De caracter docil y cariñoso','Francia',140,'Fuerte','Grande','Azul Solido','20-25cm','6-8kg');
