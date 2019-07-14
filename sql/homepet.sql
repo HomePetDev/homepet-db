@@ -148,12 +148,12 @@ CREATE TABLE hmpet.veterinario_x_mascota(
 CREATE TABLE  hmpet.fichas_servicio(
   id_ficha varchar(100),
   fec_creacion TIMESTAMP NOT NULL DEFAULT NOW(),
-  nombreAuth varchar(60) NOT NULL ,
-  tlfAuth varchar(15) NOT NULL ,
-  cedulaAuth varchar(12) NOT NULL ,
-  fec_entrada DATE  ,
-  fec_salidaest DATE  ,
-  fec_salidareal DATE,
+  nombre_auth varchar(60) NOT NULL ,
+  tlf_auth varchar(15) NOT NULL ,
+  cedula_auth varchar(12) NOT NULL ,
+  fec_entrada DATE NOT NULL ,
+  fec_salida_est DATE  NOT NULL ,
+  fec_salida_real DATE,
   rif_homepet varchar(12) NOT NULL references hmpet.homepets(rif) ON DELETE CASCADE,
   cedula_cliente varchar(12) NOT NULL references hmpet.clientes(cedula) ON DELETE CASCADE,
   id_mascota varchar(100) NOT NULL references hmpet.mascota(id_mascota) ON DELETE CASCADE,
@@ -280,7 +280,6 @@ CREATE TABLE  hmpet.ficha_x_serv(
   id_ficha varchar(100) references hmpet.fichas_servicio(id_ficha) ON DELETE CASCADE ON UPDATE RESTRICT,
   rif_homepet varchar(12) references hmpet.homepets(rif),
   nombre_serv varchar(20) NOT NULL,
-  cedula_emp varchar(12) NOT NULL ,
 
   FOREIGN KEY (rif_homepet, nombre_serv) REFERENCES hmpet.servicios (rif,nombre) ON DELETE RESTRICT,
   PRIMARY KEY (id_ficha,rif_homepet,nombre_serv)
